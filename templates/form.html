@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Super Sprinter 3000 - Add new Story</title>
+</head>
+
+<body>
+    <form method="POST">
+        <h3>User Story manager - Add new story</h3>
+        <label for="title">Story Title </label><br>
+        <input type="text" size="30" name="title" id="title" value={{title}}>
+        <p><label for="story">User Story </label><br>
+            <textarea name="story" id="story" rows="5" cols="40">{{story}}</textarea></p>
+        <p><label for="criteria">Acceptance criteria</label><br>
+            <textarea name="criteria" id="criteria" rows="5" cols="40">{{criteria}}</textarea></p>
+        <p><label for="bus_value">Business value</label><br>
+            <input type="number" name="bus_value" id="bus_value" min="100" max="1500" step="100" value={{bus_value}}></p>
+        <p><label for="estimation">Estimation (h)</label><br>
+            <input type="number" name="estimation" id="estimation" min="0.5" max="40" step="0.5" value={{estimation}}></p>
+        <p><label for="status">Status</label><br>
+            <select name="status" id="status" selected=selected>
+                {% if status == 'Planning' %}
+		            <option selected>Planning</option>
+                {% else %}
+                    <option>Planning</option>
+                {% endif %}
+
+                {% if status == 'TODO' %}
+		            <option selected>TODO</option>
+                {% else %}
+                    <option>TODO</option>
+                {% endif %}
+                
+                {% if status == 'In progress' %}
+		            <option selected>In progress</option>
+                {% else %}
+                    <option>In progress</option>
+                {% endif %}
+
+		        {% if status == 'Review' %}
+		            <option selected>Review</option>
+                {% else %}
+                    <option>Review</option>
+                {% endif %}
+
+		        {% if status == 'Done' %}
+		            <option selected>Done</option>
+                {% else %}
+                    <option>Done</option>
+                {% endif %}
+                
+                
+	        </select></p>
+        {% if story_id %}
+        <p><input type="submit" value=Update></p>
+        {% else %}
+        <p><input type="submit" value=Create></p>
+        {% endif %}
+    </form>
+</body>

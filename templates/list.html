@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Super Sprinter 3000 </title>
+    <style>
+        td {
+            border: 1px solid #999;
+            padding: 0.1em 1em;
+        }
+    </style>
+</head>
+
+<body>
+    <table>
+        <tr>
+            <td>ID</td>
+            <td>User Story</td>
+            <td>Acceptance criteria</td>
+            <td>Business value</td>
+            <td>Estimation</td>
+            <td>Status</td>
+        </tr>
+        {% for row in read %}
+        <tr>
+            <td>{{ row.0 }}</td>
+            <td>{{ row.1 }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <body>
+        <form method="POST">
