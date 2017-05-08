@@ -46,14 +46,24 @@ def update_story(story_id=None):
         fieldnames = [id_, title, story, criteria, bus_val, estimation, status]
         update_data = update(get_from_file('story.csv'), id_, fieldnames)
         write_to_file('story.csv', update_data)
-        return render_template("form.html")
+        return render_template("form.html", story_id=story_id)
 
 
-@app.route('/list')
+@app.route('/list', methods=['GET', 'POST'])
 def get_list():
-    with open('story.csv', 'r') as inFile:
-        read = csv.reader(inFile)
-        return render_template("list.html")
+    if request.method == 'GET':
+        list_data = get_from_file('story.csv')
+        print('1')
+        return render_template("list.html", list_data=list_data)
+    elif request.method == 'POST':
+        if request.form['submit'] == '&#10006;':
+            id_ = story_id
+            print(id_)
+            delete_data = remove(get_from_file('story.csv'), id_)
+            write_to_file('story.csv', remove_data)
+            list_data = get_from_file('story.csv')
+            print('ok')
+            return render_template("list.html", list_data=list_data)
 
 
 def get_id(filename):
@@ -99,6 +109,13 @@ def update(file_data, id_, field):
             file_data.pop(index)
             file_data.append(update_data)
     return file_data
+
+
+def remove(file_data, id_):
+    for index, elements in enumerate(file_data):
+        if elements[0] == id_:
+            file_data.pop(index)
+            return file_data
 
 
 if __name__ == '__main__':

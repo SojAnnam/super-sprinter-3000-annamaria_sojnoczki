@@ -12,22 +12,40 @@
 </head>
 
 <body>
-    <table>
-        <tr>
-            <td>ID</td>
-            <td>User Story</td>
-            <td>Acceptance criteria</td>
-            <td>Business value</td>
-            <td>Estimation</td>
-            <td>Status</td>
-        </tr>
-        {% for row in read %}
-        <tr>
-            <td>{{ row.0 }}</td>
-            <td>{{ row.1 }}</td>
-        </tr>
-        {% endfor %}
-    </table>
+    <form action={{url_for( 'add_create')}} method="POST">
+        <h3>User Story manager</h3>
+        <p><input type="submit" name="add_new" value="Add new User Story"></p>
+    </form>
+    <form method='POST'>
+        <table>
+            <tr>
+                <td>ID</td>
+                <td>Story Title</td>
+                <td>User Story</td>
+                <td>Acceptance criteria</td>
+                <td>Business value</td>
+                <td>Estimation</td>
+                <td>Status</td>
+                <td>Update</td>
+                <td>Delete</td>
+            </tr>
+            {% for row in list_data %}
+            <tr>
+
+                <td>{{ row.0 }}</td>
+                <td>{{ row.1 }}</td>
+                <td>{{ row.2 }}</td>
+                <td>{{ row.3 }}</td>
+                <td>{{ row.4 }}</td>
+                <td>{{ row.5 }}</td>
+                <td>{{ row.6 }}</td>
+                <td><a href={{url_for( 'update_story', story_id=row.0)}}>&#9998;</a></td>
+                <td>
+                    <input type="submit" name="submit" id="submit" value="&#10006;">
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </form>
 
     <body>
-        <form method="POST">

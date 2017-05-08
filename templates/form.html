@@ -2,7 +2,11 @@
 <html>
 
 <head>
-    <title>Super Sprinter 3000 - Add new Story</title>
+    {% if story_id %}
+    <title>Super Sprinter 3000 - Edit Story</title>
+    {% else %}
+    <title>Super Sprinter 3000 - Add New Story</title>
+    {% endif %}
 </head>
 
 <body>
