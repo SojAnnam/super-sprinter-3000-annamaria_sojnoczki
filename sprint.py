@@ -18,7 +18,7 @@ def add_create():
         bus_val = request.form["bus_value"]
         estimation = request.form["estimation"]
         status = request.form["status"]
-        id_ = str(get_id(open_csvfile('story.csv')))
+        id_ = str(get_id(get_from_file('story.csv')))
         fieldnames = [id_, title, story, criteria, bus_val, estimation, status]
         create_data = create(get_from_file('story.csv'), id_, fieldnames)
         write_to_file('story.csv', create_data)
@@ -64,20 +64,19 @@ def delete_story():
     list_data = get_from_file('story.csv')
     return render_template("list.html", list_data=list_data)
 
+# generate id, new id based on the max element in id list, (max element+1)
+
 
 def get_id(id_data):
     id_ = ['0']
-    for line in id_data:
-        data = list(line.strip().split(','))
+    for data in id_data:
         id_.append(data[0])
-    max_id = max(id_)
+    print(id_)
+    max_id = max(map(int, id_))
+    print(max_id)
     return (int(max_id) + 1)
 
-
-def open_csvfile(filename):
-    with open(filename, 'r') as data:
-        id_data = data.readlines()
-        return id_data
+# open writable csv file
 
 
 def write_to_file(file_name, data):
@@ -86,6 +85,8 @@ def write_to_file(file_name, data):
             row = ','.join(record)
             file.write(row + "\n")
 
+# open readable csv file
+
 
 def get_from_file(file_name):
     with open(file_name, "r") as file:
@@ -93,11 +94,15 @@ def get_from_file(file_name):
         data = [element.replace("\n", "").split(",") for element in lines]
     return data
 
+# add new story to the database
+
 
 def create(file_data, id_, field):
     add_data = [n for n in field]
     file_data.append(add_data)
     return file_data
+
+# update story data in story database based on story_id
 
 
 def update(file_data, id_, field):
@@ -107,6 +112,8 @@ def update(file_data, id_, field):
             file_data.pop(index)
             file_data.append(update_data)
     return file_data
+
+# delete/remove story data based on story_id
 
 
 def remove(file_data, id_):
