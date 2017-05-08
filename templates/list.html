@@ -41,7 +41,11 @@
                 <td>{{ row.6 }}</td>
                 <td><a href={{url_for( 'update_story', story_id=row.0)}}>&#9998;</a></td>
                 <td>
-                    <input type="submit" name="submit" id="submit" value="&#10006;">
+                    <form action="{{ url_for('delete_story') }}" method=post>
+                        <input type=hidden value="{{ row.0 }}" name="delete_story"></input>
+                        <input type=submit value=&#10006;></input>
+                    </form>
+
                 </td>
             </tr>
             {% endfor %}

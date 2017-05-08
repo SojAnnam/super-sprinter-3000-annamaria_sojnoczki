@@ -18,7 +18,7 @@ def add_create():
         bus_val = request.form["bus_value"]
         estimation = request.form["estimation"]
         status = request.form["status"]
-        id_ = str(get_id('story.csv'))
+        id_ = str(get_id(open_csvfile('story.csv')))
         fieldnames = [id_, title, story, criteria, bus_val, estimation, status]
         create_data = create(get_from_file('story.csv'), id_, fieldnames)
         write_to_file('story.csv', create_data)
@@ -53,30 +53,25 @@ def update_story(story_id=None):
 def get_list():
     if request.method == 'GET':
         list_data = get_from_file('story.csv')
-        print('1')
         return render_template("list.html", list_data=list_data)
 
 
 @app.route('/list', methods=['POST'])
 def delete_story():
-    if request.method == 'POST':
-        if request.form['submit'] == '&#10006;':
-            id_ = request.form['row.0']
-            print(id_)
-            delete_data = remove(get_from_file('story.csv'), id_)
-            write_to_file('story.csv', remove_data)
-            list_data = get_from_file('story.csv')
-            print('ok')
-            return render_template("list.html", list_data=list_data, methods="get")
+    id_ = request.form['delete_story']
+    delete_data = remove(get_from_file('story.csv'), id_)
+    write_to_file('story.csv', delete_data)
+    list_data = get_from_file('story.csv')
+    return render_template("list.html", list_data=list_data)
 
 
-def get_id(filename):
-    with open(filename, 'r') as data:
-        id_data = data.readlines()
-        lines = 0
-        for line in id_data:
-            lines += 1
-        return (lines + 1)
+def get_id(id_data):
+    id_ = ['0']
+    for line in id_data:
+        data = list(line.strip().split(','))
+        id_.append(data[0])
+    max_id = max(id_)
+    return (int(max_id) + 1)
 
 
 def open_csvfile(filename):
@@ -106,7 +101,6 @@ def create(file_data, id_, field):
 
 
 def update(file_data, id_, field):
-    print('2')
     for index, elements in enumerate(file_data):
         if elements[0] == id_:
             update_data = [n for n in field]
