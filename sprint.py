@@ -49,21 +49,25 @@ def update_story(story_id=None):
         return render_template("form.html", story_id=story_id)
 
 
-@app.route('/list', methods=['GET', 'POST'])
+@app.route('/list', methods=['GET'])
 def get_list():
     if request.method == 'GET':
         list_data = get_from_file('story.csv')
         print('1')
         return render_template("list.html", list_data=list_data)
-    elif request.method == 'POST':
+
+
+@app.route('/list', methods=['POST'])
+def delete_story():
+    if request.method == 'POST':
         if request.form['submit'] == '&#10006;':
-            id_ = story_id
+            id_ = request.form['row.0']
             print(id_)
             delete_data = remove(get_from_file('story.csv'), id_)
             write_to_file('story.csv', remove_data)
             list_data = get_from_file('story.csv')
             print('ok')
-            return render_template("list.html", list_data=list_data)
+            return render_template("list.html", list_data=list_data, methods="get")
 
 
 def get_id(filename):
