@@ -28,12 +28,11 @@ def add_create():
 @app.route('/story/<story_id>', methods=['POST', 'GET'])
 def update_story(story_id=None):
     if request.method == 'GET':
-        id_data = open_csvfile('story.csv')
+        id_data = get_from_file('story.csv')
         for line in id_data:
-            data = list(line.strip().split(','))
-            if data[0] == story_id:
-                return render_template("form.html", story_id=story_id, title=data[1], story=data[2], criteria=data[3],
-                                       bus_value=data[4], estimation=data[5], status=data[6])
+            if line[0] == story_id:
+                return render_template("form.html", story_id=story_id, title=line[1], story=line[2], criteria=line[3],
+                                       bus_value=line[4], estimation=line[5], status=line[6])
 
     elif request.method == 'POST':
         title = request.form["title"]
@@ -71,9 +70,7 @@ def get_id(id_data):
     id_ = ['0']
     for data in id_data:
         id_.append(data[0])
-    print(id_)
     max_id = max(map(int, id_))
-    print(max_id)
     return (int(max_id) + 1)
 
 # open writable csv file
@@ -124,4 +121,4 @@ def remove(file_data, id_):
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
